@@ -20,14 +20,12 @@ this['namespace'] = (function() {
 
     Namespace.prototype['export'] = function(exports) {
         for (var sym in exports) {
-            if (true) {
-                this[sym] = exports[sym];
-            }
+            this[sym] = exports[sym];
         }
     };
 
     globalNamespace = new Namespace();
-    globalNamespace['VERSION'] = '2.1.1';
+    globalNamespace['VERSION'] = '2.1.2';
 
     globalNamespace['lookup'] = function(path) {
         path = path.replace(/-/g, '_');
