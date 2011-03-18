@@ -1,4 +1,4 @@
-/* Namespace.js - modular namespaces in javascript
+/* Namespace.js - modular namespaces in JavaScript
 
    by Mike Koss - placed in the public domain, March 18, 2011
 */
