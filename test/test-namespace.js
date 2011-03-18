@@ -39,3 +39,21 @@ test("path names", function () {
     var ns2 = namespace.org.startpad.path_names;
     equal(ns1, ns2);
 });
+
+test("out of order definition", function() {
+    namespace.lookup('first').define(function (ns) {
+        var forward = namespace.lookup('forward');
+
+        ns.test = function () {
+            return forward.test();
+        };
+    });
+
+    namespace.lookup('forward').define(function (ns) {
+        ns.test = function () {
+            return 7;
+        };
+    });
+
+    equal(namespace.first.test(), 7, "forward reference to namespace export");
+});
