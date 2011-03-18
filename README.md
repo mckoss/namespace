@@ -8,7 +8,7 @@ There are only 4 parts to the *namespace* API:
 1. **namespace** - the top level global Namespace object.
 2. **namespace.lookup(pathname)** - get a Namespace object from its unique path name.
 3. **Namespace.define(function)** - Namespace module definition function.
-4. **Namespace.export(obj)** - export symbols from a Namespace.
+4. **Namespace.extend(obj)** - export symbols from a Namespace.
 
 
 # Typical Usage
@@ -26,7 +26,7 @@ for your namespace.
 
       ...
 
-      ns.export({
+      ns.extend({
         'myFunction': myFunction,
          ...
       });
@@ -73,9 +73,9 @@ Your closure function will be called with a single argument, the namespace objec
 local functions or variables defined in your closure function will
 only be available within your module, unless explicitly exported by you.
 
-## Namespace.export(obj)
+## Namespace.extend(obj)
 
-You can use the *export* function as a convenient way to add public properties to your namespace:
+You can use the *extend* function as a convenient way to add public properties to your namespace:
 
     function publicFunction {
     }
@@ -83,7 +83,7 @@ You can use the *export* function as a convenient way to add public properties t
     function PublicClass {
     }
 
-    ns.export({
+    ns.extend({
       'publicFunction': publicFunction,
       'PublicClass': PublicClass
     });

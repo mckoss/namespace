@@ -18,14 +18,14 @@ this['namespace'] = (function() {
         return this;
     };
 
-    Namespace.prototype['export'] = function(exports) {
+    Namespace.prototype['extend'] = function(exports) {
         for (var sym in exports) {
             this[sym] = exports[sym];
         }
     };
 
     globalNamespace = new Namespace();
-    globalNamespace['VERSION'] = '2.1.2';
+    globalNamespace['VERSION'] = '2.1.4';
 
     globalNamespace['lookup'] = function(path) {
         path = path.replace(/-/g, '_');
@@ -33,11 +33,9 @@ this['namespace'] = (function() {
         var ns = globalNamespace;
         for (var i = 0; i < parts.length; i++) {
             if (ns[parts[i]] === undefined) {
-                ns = new Namespace();
+                ns[parts[i]] = new Namespace();
             }
-            else {
-                ns = ns[parts[i]];
-            }
+            ns = ns[parts[i]];
         }
         return ns;
     };
