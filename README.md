@@ -1,4 +1,4 @@
-Namespace.js is a proposal for a standardized mechanism for creating
+[namespace.js] is a proposal for a standardized mechanism for creating
 JavaScript modules. Its inspiration comes from the design of Python *modules* and the *import* statement.
 
 # Namespace API
@@ -96,7 +96,8 @@ is equivalent to:
     ns.PublicClass = function () {
     }
 
-Which style you use is a matter of personal preference.
+Which style you use is a matter of personal preference (but see [FAQ] about safe use with
+Google Closure).
 
 
 # Advantages of Using namespace.js
@@ -113,3 +114,7 @@ Which style you use is a matter of personal preference.
 - **Does one thing well** - namespace.js is a tiny library (250 gzipped bytes)
   specifically designed to be used by any JavaScript module to make it
   easier for independently written modules to be used together.
+
+  [FAQ]: http://mckoss.github.com/namespace/FAQ.html
+  [README]: http://mckoss.github.com/namespace/README.html
+  [namespace.js]: http://mckoss.github.com/namespace/
