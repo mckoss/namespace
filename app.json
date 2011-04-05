@@ -1,0 +1,24 @@
+{
+  "application": "namespace-js",
+  "cloneable": false,
+  "created": {
+    "__class__": "Date",
+    "isoformat": "2011-03-18T20:19:57.283682Z"
+  },
+  "modified": {
+    "__class__": "Date",
+    "isoformat": "2011-03-18T20:23:21.990627Z"
+  },
+  "owner": "mckoss",
+  "readers": [
+    "public"
+  ],
+  "referers": [],
+  "secureData": false,
+  "sha1": "13c65ee034bf3a01bc08f37a4a5b16c7f25e711e",
+  "size": 226,
+  "tags": [],
+  "title": "Namespace-js",
+  "url": "http://namespace-js.pageforest.com/",
+  "writers": []
+}
