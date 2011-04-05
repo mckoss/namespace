@@ -1,33 +1,35 @@
 /* Namespace.js - modular namespaces in JavaScript
 
    by Mike Koss - placed in the public domain, March 18, 2011
+
+   version 2.2.0 - April 4, 2011 - version checking and add
 */
 
-this['namespace'] = (function() {
-    var globalNamespace;
+(function(global) {
+    var globalNamespace = global['namespace'];
+    var Namespace;
+    var VERSION = '2.2.0';
 
-    if (this['namespace']) {
-        return this['namespace'];
+    function numeric(s) {
+        if (!s) {
+            return 0;
+        }
+        var a = s.split('.');
+        return 10000 * parseInt(a[0]) + 100 * parseInt(a[1]) + parseInt(a[2]);
     }
 
-    /** @constructor */
-    function Namespace() {}
-
-    Namespace.prototype['define'] = function(closure) {
-        closure(this);
-        return this;
-    };
-
-    Namespace.prototype['extend'] = function(exports) {
-        for (var sym in exports) {
-            this[sym] = exports[sym];
+    if (globalNamespace) {
+        if (numeric(VERSION) <= numeric(globalNamespace['VERSION'])) {
+            return;
         }
-    };
+        Namespace = globalNamespace.constructor;
+    } else {
+        Namespace = function () {};
+        global['namespace'] = globalNamespace = new Namespace();
+    }
+    globalNamespace['VERSION'] = VERSION;
 
-    globalNamespace = new Namespace();
-    globalNamespace['VERSION'] = '2.1.4';
-
-    globalNamespace['lookup'] = function(path) {
+    function lookup(path) {
         path = path.replace(/-/g, '_');
         var parts = path.split('.');
         var ns = globalNamespace;
@@ -38,7 +40,20 @@ this['namespace'] = (function() {
             ns = ns[parts[i]];
         }
         return ns;
+    }
+
+    var proto = Namespace.prototype;
+
+    proto['define'] = function(closure) {
+        closure(this, lookup);
+        return this;
     };
 
-    return globalNamespace;
-}());
+    proto['extend'] = function(exports) {
+        for (var sym in exports) {
+            this[sym] = exports[sym];
+        }
+    };
+
+    globalNamespace['lookup'] = lookup;
+}(this));

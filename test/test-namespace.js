@@ -8,7 +8,7 @@ test("global namespace object", function() {
 
     var version = namespace.VERSION.split('.');
     equal(version.length, 3, "VERSION has 3 parts");
-    ok(version[0] == 2 && version[1] == 1, "tests for version 2.1");
+    ok(version[0] == 2 && version[1] == 2, "tests for version 2.2");
 });
 
 test("unique lookup", function() {
