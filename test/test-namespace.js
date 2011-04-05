@@ -57,3 +57,18 @@ test("out of order definition", function() {
 
     equal(namespace.first.test(), 7, "forward reference to namespace export");
 });
+
+test("require parameter", function () {
+    namespace.lookup('test.require').define(function (exports, require) {
+        var extern = require('test.extern');
+        exports.func = function (x) {
+            return extern.func(x) + 1;
+        };
+    });
+    namespace.lookup('test.extern').define(function (exports, require) {
+        exports.func = function (x) {
+            return x * 3;
+        };
+    });
+    equal(namespace.test.require.func(7), 22);
+});
