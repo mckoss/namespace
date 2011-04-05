@@ -1,0 +1,8 @@
+{
+  "files": {
+    "namespace.js": [
+      "src/namespace.js"
+    ]
+  },
+  "minify": true
+}
