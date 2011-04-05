@@ -1,0 +1,14 @@
+{
+  "application": "namespace-js",
+  "cloneable": false,
+  "owner": "mckoss",
+  "readers": [
+    "public"
+  ],
+  "referers": [],
+  "secureData": false,
+  "tags": [],
+  "title": "Namespace-js",
+  "url": "http://namespace-js.pageforest.com/",
+  "writers": []
+}
