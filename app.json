@@ -1,10 +1,6 @@
 {
   "application": "namespace-js",
   "cloneable": false,
-  "owner": "mckoss",
-  "readers": [
-    "public"
-  ],
   "referers": [],
   "secureData": false,
   "tags": [],
