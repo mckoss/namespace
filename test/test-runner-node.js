@@ -22,7 +22,7 @@ types.extend(ut.QUnit, {
     },
 
     testDone: function (info) {
-        console.log(moduleInfo.name + ': ' + info.name +
+        console.log(testNumber++ + '. ' + moduleInfo.name + ': ' + info.name +
                     ' (' + info.passed + '/' + info.total + ' pass)');
     },
 
