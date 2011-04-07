@@ -40,8 +40,7 @@ namespace.lookup('org.startpad.types.test').define(function (exports, require) {
             [[], 'array'],
             [new Date(), 'date'],
             [arguments, 'arguments'],
-            [/x/, 'regexp'],
-            [window, 'object']
+            [/x/, 'regexp']
         ];
         for (var i = 0; i < tests.length; i++) {
             var t = tests[i];

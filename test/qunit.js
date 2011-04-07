@@ -8,7 +8,9 @@
  * or GPL (GPL-LICENSE.txt) licenses.
  */
 
+// Use namespace for uniform environment on browser and node.js - mck
 namespace.lookup('com.jquery.qunit').define(function (exports, require) {
+var window = this;
 
 var defined = {
     setTimeout: typeof window.setTimeout !== "undefined",
