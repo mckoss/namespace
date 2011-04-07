@@ -2,7 +2,7 @@
 
    by Mike Koss - placed in the public domain, March 18, 2011
 
-   version 2.2.0 - April 4, 2011 - version checking and add
+   version 2.2.0 - April 4, 2011 - version checking and require support
 */
 
 (function(global) {
