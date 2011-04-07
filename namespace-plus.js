@@ -65,7 +65,8 @@ namespace.lookup('org.startpad.types').define(function (exports, require) {
         'copyArray': copyArray,
         'isType': isType,
         'typeOf': typeOf,
-        'extend': extend
+        'extend': extend,
+        'getFunctionName': getFunctionName
     });
 
     // Can be used to copy Arrays and Arguments into an Array
@@ -131,6 +132,17 @@ namespace.lookup('org.startpad.types').define(function (exports, require) {
         return dest;
     }
 
+    function getFunctionName(fn) {
+        if (typeof fn != 'function') {
+            return undefined;
+        }
+        var result = fn.toString().match(/function\s*(\S+)\s*\(/);
+        if (!result) {
+            return '';
+        }
+        return result[1];
+    }
+
 });
 namespace.lookup('org.startpad.funcs').define(function (exports, require) {
     var types = require('org.startpad.types');
@@ -190,7 +202,7 @@ namespace.lookup('org.startpad.funcs').define(function (exports, require) {
 
     // Wrap the fn function with a generic decorator like:
     //
-    // function decorator(fn, arguments, fnWrapper) {
+    // function decorator(fn, arguments, wrapper) {
     //   if (fn == undefined) { ... init ...; return;}
     //   ...
     //   result = fn.apply(this, arguments);
@@ -198,18 +210,18 @@ namespace.lookup('org.startpad.funcs').define(function (exports, require) {
     //   return result;
     // }
     //
-    // The fnWrapper function is a created for each call
+    // The decorated function is created for each call
     // of the decorate function.  In addition to wrapping
     // the decorated function, it can be used to save state
     // information between calls by adding properties to it.
     function decorate(fn, decorator) {
-        var fnWrapper = function() {
-            return decorator.call(this, fn, arguments, fnWrapper);
+        function decorated() {
+            return decorator.call(this, fn, arguments, decorated);
         };
         // Init call - pass undefined fn - but available in this
         // if needed.
-        decorator.call(this, undefined, arguments, fnWrapper);
-        return fnWrapper;
+        decorator.call(fn, undefined, arguments, decorated);
+        return decorated;
     }
 
 });

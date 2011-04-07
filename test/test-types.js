@@ -62,4 +62,13 @@ namespace.lookup('org.startpad.types.test').define(function (exports, require) {
         }
     });
 
+    test("getFunctionName", function() {
+        function foo() {}
+        var x = function () {};
+
+        equal(types.getFunctionName(1), undefined, "not a function");
+        equal(types.getFunctionName(foo), 'foo', "named function");
+        equal(types.getFunctionName(x), '', "anonymous function");
+    });
+
 });

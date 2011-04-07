@@ -18,14 +18,18 @@ namespace.lookup('org.startpad.funcs.test').define(function (exports, require) {
 
     test("methods", function () {
         function Foo() {
+            this.x = 1;
         }
 
         Foo.methods({
-            t1: function () { return 1; }
+            t1: function () { return this.x; },
+            toString: function () { return "Foo object"; }
         });
 
         var f = new Foo();
-        equal(f.t1(), 1);
+        equal(types.typeOf(Foo.prototype.t1), 'function', "added to prototype");
+        equal(f.t1(), 1, "method call");
+        equal(f + "", "Foo object", "toString override");
     });
 
 });

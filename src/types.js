@@ -6,7 +6,8 @@ namespace.lookup('org.startpad.types').define(function (exports, require) {
         'copyArray': copyArray,
         'isType': isType,
         'typeOf': typeOf,
-        'extend': extend
+        'extend': extend,
+        'getFunctionName': getFunctionName
     });
 
     // Can be used to copy Arrays and Arguments into an Array
@@ -70,6 +71,17 @@ namespace.lookup('org.startpad.types').define(function (exports, require) {
             }
         }
         return dest;
+    }
+
+    function getFunctionName(fn) {
+        if (typeof fn != 'function') {
+            return undefined;
+        }
+        var result = fn.toString().match(/function\s*(\S+)\s*\(/);
+        if (!result) {
+            return '';
+        }
+        return result[1];
     }
 
 });
