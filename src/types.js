@@ -7,6 +7,7 @@ namespace.lookup('org.startpad.types').define(function (exports, require) {
         'isType': isType,
         'typeOf': typeOf,
         'extend': extend,
+        'project': project,
         'getFunctionName': getFunctionName
     });
 
@@ -76,17 +77,17 @@ namespace.lookup('org.startpad.types').define(function (exports, require) {
         return dest;
     }
 
-    /* Return new object with just the listed properties "projected"
-       into the new object.  Ignore undefined properties. */
-    function project(obj, asProps) {
-        var objT = {};
-        for (var i = 0; i < asProps.length; i++) {
-            var name = asProps[i];
+    // Return new object with just the listed properties "projected"
+    // into the new object.  Ignore undefined properties.
+    function project(obj, props) {
+        var result = {};
+        for (var i = 0; i < props.length; i++) {
+            var name = props[i];
             if (obj && obj.hasOwnProperty(name)) {
-                objT[name] = obj[name];
+                result[name] = obj[name];
             }
         }
-        return objT;
+        return result;
     }
 
     function getFunctionName(fn) {
