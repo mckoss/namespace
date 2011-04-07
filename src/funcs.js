@@ -1,9 +1,8 @@
-namespace.lookup('org.startpad.meta').define(function (exports, require) {
+namespace.lookup('org.startpad.funcs').define(function (exports, require) {
     var types = require('org.startpad.types');
 
     exports.extend({
         'VERSION': '0.1.0',
-        'extend': extend,
         'methods': methods,
         'bind': bind,
         'decorate': decorate,
@@ -25,7 +24,7 @@ namespace.lookup('org.startpad.meta').define(function (exports, require) {
 
     // Copy methods to a Constructor Function's prototype
     function methods(ctor, obj) {
-        extend(ctor.prototype, obj);
+        types.extend(ctor.prototype, obj);
     }
 
     // Bind 'this' and/or arguments and return new function.
