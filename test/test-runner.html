@@ -4,12 +4,14 @@
   <title>Namespace Test Suite</title>
   <link rel="stylesheet" href="qunit.css" type="text/css" media="screen"></link>
   <script type="text/javascript">
+    // Dummy namespace to be replaced
     window.namespace = new function () {};
     window.namespace.VERSION = '1.2.3';
   </script>
-  <script type="text/javascript" src="../namespace.js"></script>
+  <script type="text/javascript" src="/namespace-plus.js"></script>
   <script type="text/javascript" src="qunit.js"></script>
   <script type="text/javascript" src="test-namespace.js"></script>
+  <script type="text/javascript" src="test-types.js"></script>
 </head>
 <body>
   <h1 id="qunit-header">Namespace.js Test Suite</h1>

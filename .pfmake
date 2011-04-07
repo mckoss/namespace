@@ -1,7 +1,10 @@
 {
   "files": {
-    "namespace.js": [
-      "src/namespace.js"
+    "namespace.js": [ "src/namespace.js" ],
+    "namespace-plus.js": [
+      "src/namespace.js",
+      "src/types.js",
+      "src/funcs.js"
     ]
   },
   "minify": true
