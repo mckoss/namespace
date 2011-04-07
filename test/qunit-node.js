@@ -5,7 +5,6 @@ var types = namespace.lookup('org.startpad.types');
 var moduleInfo, testInfo;
 var testNumber = 1;
 
-debugger;
 types.extend(namespace.com.jquery.qunit.QUnit, {
     moduleStart: function (info) {
         moduleInfo = info;
