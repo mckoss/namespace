@@ -5,12 +5,13 @@ namespace.lookup('org.startpad.types').define(function (exports, require) {
         'isArray': function (obj) { return isType('array'); },
         'copyArray': copyArray,
         'isType': isType,
-        'typeOf': typeOf
+        'typeOf': typeOf,
+        'extend': extend
     });
 
     // Can be used to copy Arrays and Arguments into an Array
     function copyArray(arg) {
-        return Array.prototype.slice.call(arg, 0);
+        return Array.prototype.slice.call(arg);
     }
 
     var baseTypes = ['number', 'string', 'boolean', 'array', 'function', 'date',
@@ -38,4 +39,37 @@ namespace.lookup('org.startpad.types').define(function (exports, require) {
         }
         return type;
     }
+
+    var enumBug = !{toString: true}.propertyIsEnumerable('toString');
+    var internalNames = ['toString', 'toLocaleString', 'valueOf',
+                         'constructor', 'isPrototypeOf'];
+
+    function extend(dest, args) {
+        var i, j;
+        var source;
+        var prop;
+
+        if (dest === undefined) {
+            dest = {};
+        }
+        for (i = 1; i < arguments.length; i++) {
+            source = arguments[i];
+            for (prop in source) {
+                if (source.hasOwnProperty(prop)) {
+                    dest[prop] = source[prop];
+                }
+            }
+            if (!enumBug) {
+                continue;
+            }
+            for (j = 0; j < internalNames.length; j++) {
+                prop = internalNames[j];
+                if (source.hasOwnProperty(prop)) {
+                    dest[prop] = source[prop];
+                }
+            }
+        }
+        return dest;
+    }
+
 });

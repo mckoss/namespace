@@ -4,54 +4,54 @@ namespace.lookup('org.startpad.meta').define(function (exports, require) {
     exports.extend({
         'VERSION': '0.1.0',
         'extend': extend,
-        'bind': bind,
         'methods': methods,
-        'monkeyPatch': monkeyPatch,
+        'bind': bind,
         'decorate': decorate,
+        'monkeyPatch': monkeyPatch
     });
 
     // Monkey-patch the Function object if that is your syntactic preference
-    function patchFunction() {
+    function monkeyPatch() {
         methods(Function, {
             'methods': function (obj) { methods(this, obj); },
-            'bind': function (self) { return fnMethod(this, self); },
-            'curry': function () { return curry(this, arguments); },
+            'bind': function (self) {
+                Array.prototype.shift.call(arguments);
+                return bind(this, self, arguments);
+            },
+            'curry': function () { return bind(this, undefined, arguments); },
             'decorate': function (decorator) { return decorate(this, decorator); }
         });
     }
-
-    var enumBug = !{toString: true}.propertyIsEnumerable('toString');
-    var internalNames = ['toString', 'toLocaleString', 'valueOf',
-                         'constructor', 'isPrototypeOf'];
 
     // Copy methods to a Constructor Function's prototype
     function methods(ctor, obj) {
         extend(ctor.prototype, obj);
     }
 
-    // Function wrapper for binding 'this'
-    // Similar to Protoype.bind - but does no argument mangling
+    // Bind 'this' and/or arguments and return new function.
     function bind(fn, self) {
-        return function binder() {
-            return fn.apply(self, arguments);
-        };
-    }
-
-    // Function wrapper for appending parameters (currying)
-    // Similar to Prototype.curry
-    function curry(fn) {
         var presets;
 
         // Handle the monkey-patched and in-line forms of curry
-        if (arguments.length == 2 && types.isArguments(arguments[1])) {
-            presets = copyArray(arguments[2]);
+        if (arguments.length == 3 && types.isArguments(arguments[2])) {
+            presets = types.copyArray(arguments[2]);
         } else {
-            presets = copyArray(arguments);
+            presets = types.copyArray(arguments).slice(2);
+        }
+
+        function merge(a1, a2) {
+            var merged = types.copyArray(a1);
+            a2 = types.copyArray(a2);
+            for (var i = 0; i < merged.length; i++) {
+                if (merged[i] === undefined) {
+                    merged[i] = a2.shift();
+                }
+            }
+            return merged.concat(a2);
         }
 
         return function curried() {
-            args = types.arrayCopy(presets);
-            return fn.apply(this, presets.concat(arguments));
+            return fn.apply(self || this, merge(presets, arguments));
         };
     }
 
@@ -77,34 +77,6 @@ namespace.lookup('org.startpad.meta').define(function (exports, require) {
         // if needed.
         decorator.call(this, undefined, arguments, fnWrapper);
         return fnWrapper;
-    }
-
-    function extend(dest, args) {
-        var i, j;
-        var source;
-        var prop;
-
-        if (dest === undefined) {
-            dest = {};
-        }
-        for (i = 1; i < arguments.length; i++) {
-            source = arguments[i];
-            for (prop in source) {
-                if (source.hasOwnProperty(prop)) {
-                    dest[prop] = source[prop];
-                }
-            }
-            if (!enumBug) {
-                continue;
-            }
-            for (j = 0; j < internalNames.length; j++) {
-                prop = internalNames[j];
-                if (source.hasOwnProperty(prop)) {
-                    dest[prop] = source[prop];
-                }
-            }
-        }
-        return dest;
     }
 
 });

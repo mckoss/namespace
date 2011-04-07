@@ -1,4 +1,3 @@
-/*globals test, ok, equal */
 namespace.lookup('org.startpad.types.test').define(function (exports, require) {
     var types = require('org.startpad.types');
 
@@ -47,6 +46,19 @@ namespace.lookup('org.startpad.types.test').define(function (exports, require) {
             var t = tests[i];
             equal(types.typeOf(t[0]), t[1]);
             ok(types.isType(t[0], t[1]), "type of " + t[0]);
+        }
+    });
+
+    test("extend", function () {
+        var tests = [
+            [{}, {a: 1}, {a: 1}],
+            [{a: 1}, {a: 2}, {a: 2}],
+            [{a: undefined}, {a: 2}, {a: 2}],
+            [{}, {toString: 1}, {toString: 1}]
+        ];
+        for (var i = 0; i < tests.length; i++) {
+            var t = tests[i];
+            deepEqual(types.extend(t[0], t[1]), t[2]);
         }
     });
 
