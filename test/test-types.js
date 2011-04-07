@@ -11,6 +11,19 @@ namespace.lookup('org.startpad.types.test').define(function (exports, require) {
         equal();
     });
 
+    test("copyArray", function() {
+        var a = [1, 2, 3];
+
+        function tester() {
+            return types.copyArray(arguments);
+        }
+
+        deepEqual(types.copyArray(a), a, "copy simple array");
+        var a2 = types.copyArray(tester(1, 2, 3));
+        deepEqual(a2, a, "copy arguments");
+        equal(types.typeOf(a2), 'array');
+    });
+
     test("isType", function() {
         var tests = [
             ['', 'string'],

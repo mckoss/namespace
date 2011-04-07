@@ -4,9 +4,10 @@ namespace.lookup('org.startpad.meta').define(function (exports, require) {
     exports.extend({
         'VERSION': '0.1.0',
         'extend': extend,
+        'bind': bind,
         'methods': methods,
-        'patchFunction': patchFunction,
-        'decorate': decorate
+        'monkeyPatch': monkeyPatch,
+        'decorate': decorate,
     });
 
     // Monkey-patch the Function object if that is your syntactic preference
@@ -31,7 +32,7 @@ namespace.lookup('org.startpad.meta').define(function (exports, require) {
     // Function wrapper for binding 'this'
     // Similar to Protoype.bind - but does no argument mangling
     function bind(fn, self) {
-        return function() {
+        return function binder() {
             return fn.apply(self, arguments);
         };
     }
@@ -48,7 +49,8 @@ namespace.lookup('org.startpad.meta').define(function (exports, require) {
             presets = copyArray(arguments);
         }
 
-        return function () {
+        return function curried() {
+            args = types.arrayCopy(presets);
             return fn.apply(this, presets.concat(arguments));
         };
     }
