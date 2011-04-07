@@ -100,11 +100,14 @@ namespace.lookup('org.startpad.types').define(function (exports, require) {
         return type;
     }
 
+    // IE 8 has bug that does not enumerates even own properties that have
+    // these internal names.
     var enumBug = !{toString: true}.propertyIsEnumerable('toString');
     var internalNames = ['toString', 'toLocaleString', 'valueOf',
                          'constructor', 'isPrototypeOf'];
 
-    function extend(dest, args) {
+    // Copy the (own) properties of all the arguments into the first one (in order).
+    function extend(dest) {
         var i, j;
         var source;
         var prop;
@@ -130,6 +133,19 @@ namespace.lookup('org.startpad.types').define(function (exports, require) {
             }
         }
         return dest;
+    }
+
+    /* Return new object with just the listed properties "projected"
+       into the new object.  Ignore undefined properties. */
+    function project(obj, asProps) {
+        var objT = {};
+        for (var i = 0; i < asProps.length; i++) {
+            var name = asProps[i];
+            if (obj && obj.hasOwnProperty(name)) {
+                objT[name] = obj[name];
+            }
+        }
+        return objT;
     }
 
     function getFunctionName(fn) {

@@ -1,22 +1,23 @@
 namespace.lookup('org.startpad.funcs.test').define(function (exports, require) {
+    var ut = require('com.jquery.qunit');
     var types = require('org.startpad.types');
     var funcs = require('org.startpad.funcs');
 
-    module('funcs');
+    ut.module('funcs');
 
-    test("version", function () {
+    ut.test("version", function () {
         var version = funcs.VERSION.split('.');
-        equal(version.length, 3, "VERSION has 3 parts");
-        ok(version[0] == 0 && version[1] == 1, "tests for version 0.1");
+        ut.equal(version.length, 3, "VERSION has 3 parts");
+        ut.ok(version[0] == 0 && version[1] == 1, "tests for version 0.1");
     });
 
-    test("monkeyPatch", function () {
-        equal(Function.methods, undefined, "methods not patched by default");
+    ut.test("monkeyPatch", function () {
+        ut.equal(Function.methods, undefined, "methods not patched by default");
         funcs.monkeyPatch();
-        equal(types.typeOf(Function.methods), 'function', "monkey patched");
+        ut.equal(types.typeOf(Function.methods), 'function', "monkey patched");
     });
 
-    test("methods", function () {
+    ut.test("methods", function () {
         function Foo() {
             this.x = 1;
         }
@@ -27,9 +28,9 @@ namespace.lookup('org.startpad.funcs.test').define(function (exports, require) {
         });
 
         var f = new Foo();
-        equal(types.typeOf(Foo.prototype.t1), 'function', "added to prototype");
-        equal(f.t1(), 1, "method call");
-        equal(f + "", "Foo object", "toString override");
+        ut.equal(types.typeOf(Foo.prototype.t1), 'function', "added to prototype");
+        ut.equal(f.t1(), 1, "method call");
+        ut.equal(f + "", "Foo object", "toString override");
     });
 
 });

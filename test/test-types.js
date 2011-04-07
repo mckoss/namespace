@@ -1,29 +1,30 @@
 namespace.lookup('org.startpad.types.test').define(function (exports, require) {
+    var ut = require('com.jquery.qunit');
     var types = require('org.startpad.types');
 
-    module('types');
+    ut.module('types');
 
-    test("version", function () {
+    ut.test("version", function () {
         var version = types.VERSION.split('.');
-        equal(version.length, 3, "VERSION has 3 parts");
-        ok(version[0] == 0 && version[1] == 1, "tests for version 0.1");
-        equal();
+        ut.equal(version.length, 3, "VERSION has 3 parts");
+        ut.ok(version[0] == 0 && version[1] == 1, "tests for version 0.1");
+        ut.equal();
     });
 
-    test("copyArray", function() {
+    ut.test("copyArray", function() {
         var a = [1, 2, 3];
 
         function tester() {
             return types.copyArray(arguments);
         }
 
-        deepEqual(types.copyArray(a), a, "copy simple array");
+        ut.deepEqual(types.copyArray(a), a, "copy simple array");
         var a2 = types.copyArray(tester(1, 2, 3));
-        deepEqual(a2, a, "copy arguments");
-        equal(types.typeOf(a2), 'array');
+        ut.deepEqual(a2, a, "copy arguments");
+        ut.equal(types.typeOf(a2), 'array');
     });
 
-    test("isType", function() {
+    ut.test("isType", function() {
         var tests = [
             ['', 'string'],
             [1, 'number'],
@@ -44,12 +45,12 @@ namespace.lookup('org.startpad.types.test').define(function (exports, require) {
         ];
         for (var i = 0; i < tests.length; i++) {
             var t = tests[i];
-            equal(types.typeOf(t[0]), t[1]);
-            ok(types.isType(t[0], t[1]), "type of " + t[0]);
+            ut.equal(types.typeOf(t[0]), t[1]);
+            ut.ok(types.isType(t[0], t[1]), "type of " + t[0]);
         }
     });
 
-    test("extend", function () {
+    ut.test("extend", function () {
         var tests = [
             [{}, {a: 1}, {a: 1}],
             [{a: 1}, {a: 2}, {a: 2}],
@@ -58,17 +59,17 @@ namespace.lookup('org.startpad.types.test').define(function (exports, require) {
         ];
         for (var i = 0; i < tests.length; i++) {
             var t = tests[i];
-            deepEqual(types.extend(t[0], t[1]), t[2]);
+            ut.deepEqual(types.extend(t[0], t[1]), t[2]);
         }
     });
 
-    test("getFunctionName", function() {
+    ut.test("getFunctionName", function() {
         function foo() {}
         var x = function () {};
 
-        equal(types.getFunctionName(1), undefined, "not a function");
-        equal(types.getFunctionName(foo), 'foo', "named function");
-        equal(types.getFunctionName(x), '', "anonymous function");
+        ut.equal(types.getFunctionName(1), undefined, "not a function");
+        ut.equal(types.getFunctionName(foo), 'foo', "named function");
+        ut.equal(types.getFunctionName(x), '', "anonymous function");
     });
 
 });
