@@ -1,9 +1,12 @@
 namespace.lookup('org.startpad.funcs.test').define(function (exports, require) {
     var ut = require('com.jquery.qunit');
+    var utCoverage = require('org.startpad.qunit.coverage');
     var types = require('org.startpad.types');
     var funcs = require('org.startpad.funcs');
 
     ut.module('funcs');
+
+    coverage = new utCoverage.Coverage('org.startpad.types');
 
     ut.test("version", function () {
         var version = funcs.VERSION.split('.');
@@ -32,5 +35,7 @@ namespace.lookup('org.startpad.funcs.test').define(function (exports, require) {
         ut.equal(f.t1(), 1, "method call");
         ut.equal(f + "", "Foo object", "toString override");
     });
+
+    coverage.testCoverage();
 
 });

@@ -1,8 +1,13 @@
 namespace.lookup('org.startpad.types.test').define(function (exports, require) {
     var ut = require('com.jquery.qunit');
+    var utCoverage = require('org.startpad.qunit.coverage');
     var types = require('org.startpad.types');
 
-    ut.module('types');
+    ut.module('org.startpad.types');
+
+    var coverage;
+
+    coverage = new utCoverage.Coverage('org.startpad.types');
 
     ut.test("version", function () {
         var version = types.VERSION.split('.');
@@ -70,5 +75,7 @@ namespace.lookup('org.startpad.types.test').define(function (exports, require) {
         ut.equal(types.getFunctionName(foo), 'foo', "named function");
         ut.equal(types.getFunctionName(x), '', "anonymous function");
     });
+
+    coverage.testCoverage();
 
 });

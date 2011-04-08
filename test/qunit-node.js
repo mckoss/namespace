@@ -1,9 +1,11 @@
 require('./qunit.js');
+require('./qunit-coverage.js');
 
 var types = namespace.lookup('org.startpad.types');
 
 var moduleInfo, testInfo;
 var testNumber = 1;
+var coverage;
 
 types.extend(namespace.com.jquery.qunit.QUnit, {
     moduleStart: function (info) {
