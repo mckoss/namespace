@@ -12,7 +12,7 @@
  */
 namespace.lookup('org.startpad.qunit.coverage').define(function (exports, require) {
     var funcs = require('org.startpad.funcs');
-    var types = namespace.lookup('org.startpad.types');
+    var types = require('org.startpad.types');
     var ut = require('com.jquery.qunit');
 
     exports.extend({
@@ -21,7 +21,7 @@ namespace.lookup('org.startpad.qunit.coverage').define(function (exports, requir
 
     function Coverage(namespaceName) {
         this.name = namespaceName;
-        this.ns = namespace.lookup(namespaceName);
+        this.ns = require(namespaceName);
         this.funcs = {};
         this.called = {};
         this.methods = {};

@@ -6,7 +6,7 @@ namespace.lookup('org.startpad.funcs.test').define(function (exports, require) {
 
     ut.module('funcs');
 
-    coverage = new utCoverage.Coverage('org.startpad.types');
+    coverage = new utCoverage.Coverage('org.startpad.funcs');
 
     ut.test("version", function () {
         var version = funcs.VERSION.split('.');
