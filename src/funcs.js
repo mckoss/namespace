@@ -10,6 +10,7 @@ namespace.lookup('org.startpad.funcs').define(function (exports, require) {
     });
 
     // Monkey-patch the Function object if that is your syntactic preference
+    // REVIEW: Allow unpatch?
     function monkeyPatch() {
         methods(Function, {
             'methods': function (obj) { methods(this, obj); },
