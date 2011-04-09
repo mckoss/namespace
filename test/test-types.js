@@ -76,6 +76,33 @@ namespace.lookup('org.startpad.types.test').define(function (exports, require) {
         ut.equal(types.getFunctionName(x), '', "anonymous function");
     });
 
+    ut.test("isArguments", function () {
+        ut.ok(types.isArguments(arguments), "arguments verified");
+        ut.ok(!types.isArguments([]), "arrays are not arguments");
+    });
+
+    ut.test("isArray", function () {
+        ut.ok(types.isArray([]), "array verified");
+        ut.ok(!types.isArray(arguments), "arguments are not arrays");
+        var arrayLike = {};
+        arrayLike[0] = 2;
+        arrayLike.length = 1;
+        ut.ok(!types.isArray(arrayLike), "objects are not arrays");
+    });
+
+    ut.test("project", function() {
+        var tests = [
+            [{a: 1, b: 2}, ['a'], {a: 1}],
+            [{a: 1, b: 2}, ['c'], {}],
+            [undefined, ['a'], {}],
+            [{a: 1, b: 2}, [], {}]
+        ];
+        for (var i = 0; i < tests.length; i++) {
+            var t = tests[i];
+            ut.deepEqual(types.project(t[0], t[1]), t[2]);
+        }
+    });
+
     coverage.testCoverage();
 
 });

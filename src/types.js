@@ -1,8 +1,8 @@
 namespace.lookup('org.startpad.types').define(function (exports, require) {
     exports.extend({
         'VERSION': '0.1.0',
-        'isArguments': function (obj) { return isType('arguments'); },
-        'isArray': function (obj) { return isType('array'); },
+        'isArguments': function (value) { return isType(value, 'arguments'); },
+        'isArray': function (value) { return isType(value, 'array'); },
         'copyArray': copyArray,
         'isType': isType,
         'typeOf': typeOf,

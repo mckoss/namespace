@@ -17,13 +17,14 @@ types.extend(namespace.com.jquery.qunit.QUnit, {
     },
 
     testDone: function (info) {
-        console.log(testNumber++ + '. ' + moduleInfo.name + ': ' + info.name +
+        var verdict = info.passed == info.total ? 'PASS' : 'FAIL';
+        console.log(testNumber++ + '. ' + verdict + ' ' + moduleInfo.name + ': ' + info.name +
                     ' (' + info.passed + '/' + info.total + ' pass)');
     },
 
     log: function (info) {
         if (!info.result) {
-            console.log(moduleInfo.name + ': ' + testInfo.name + " FAIL: " + ': ' + info.message);
+            console.log(info.message);
         }
     }
 });
