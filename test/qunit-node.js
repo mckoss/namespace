@@ -24,6 +24,9 @@ types.extend(namespace.com.jquery.qunit.QUnit, {
 
     log: function (info) {
         if (!info.result) {
+            if (!info.message) {
+                info.message = "Expected: " + info.expected + ", Actual: " + info.actual;
+            }
             console.log(info.message);
         }
     }

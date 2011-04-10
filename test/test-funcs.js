@@ -38,6 +38,35 @@ namespace.lookup('org.startpad.funcs.test').define(function (exports, require) {
         ut.equal(types.typeOf(Foo.prototype.t1), 'function', "added to prototype");
         ut.equal(f.t1(), 1, "method call");
         ut.equal(f + "", "Foo object", "toString override");
+
+        function Bar() {
+            this.x = 1;
+        }
+
+        funcs.methods(Bar, {
+            t1: function () { return this.x; },
+            toString: function () { return "Bar object"; }
+        });
+
+        f = new Bar();
+        ut.equal(types.typeOf(Bar.prototype.t1), 'function', "added to prototype");
+        ut.equal(f.t1(), 1, "method call");
+        ut.equal(f + "", "Bar object", "toString override");
+    });
+
+    ut.test("bind", function() {
+        function sample(x, y) {
+            return this.a + 10 * x + y;
+        }
+
+        var teens = sample.bind({a: 3}, 1);
+        ut.equal(teens(0), 13);
+        ut.equal(teens(1), 14);
+
+        var mod4 = funcs.bind(sample, {a: 3}, undefined, 1);
+        ut.equal(mod4(0), 4);
+        ut.equal(mod4(1), 14);
+        ut.equal(mod4(2), 24);
     });
 
     coverage.testCoverage();

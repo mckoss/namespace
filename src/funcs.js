@@ -15,7 +15,6 @@ namespace.lookup('org.startpad.funcs').define(function (exports, require) {
         methods(Function, {
             'methods': function (obj) { methods(this, obj); },
             'bind': function (self) {
-                Array.prototype.shift.call(arguments);
                 return bind(this, self, arguments);
             },
             'curry': function () { return bind(this, undefined, arguments); },
@@ -34,9 +33,9 @@ namespace.lookup('org.startpad.funcs').define(function (exports, require) {
 
         // Handle the monkey-patched and in-line forms of curry
         if (arguments.length == 3 && types.isArguments(arguments[2])) {
-            presets = types.copyArray(arguments[2]);
+            presets = Array.prototype.slice.call(arguments[2], 1);
         } else {
-            presets = types.copyArray(arguments).slice(2);
+            presets = Array.prototype.slice.call(arguments, 2);
         }
 
         function merge(a1, a2) {
@@ -72,7 +71,7 @@ namespace.lookup('org.startpad.funcs').define(function (exports, require) {
     function decorate(fn, decorator) {
         function decorated() {
             return decorator.call(this, fn, arguments, decorated);
-        };
+        }
         // Init call - pass undefined fn - but available in this
         // if needed.
         decorator.call(fn, undefined, arguments, decorated);
