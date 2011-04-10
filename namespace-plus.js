@@ -178,9 +178,14 @@ namespace.lookup('org.startpad.funcs').define(function (exports, require) {
         methods(Function, {
             'methods': function (obj) { methods(this, obj); },
             'bind': function (self) {
-                return bind(this, self, arguments);
-            },
-            'curry': function () { return bind(this, undefined, arguments); },
+                var args = types.copyArray(arguments);
+                args.unshift(this);
+                return bind.apply(undefined, args);
+             },
+            'curry': function () {
+                var args = [this, undefined].concat(types.copyArray(arguments));
+                return bind.apply(undefined, args);
+             },
             'decorate': function (decorator) { return decorate(this, decorator); }
         });
     }
@@ -196,7 +201,7 @@ namespace.lookup('org.startpad.funcs').define(function (exports, require) {
 
         // Handle the monkey-patched and in-line forms of curry
         if (arguments.length == 3 && types.isArguments(arguments[2])) {
-            presets = Array.prototype.slice.call(arguments[2], 1);
+            presets = Array.prototype.slice.call(arguments[2], self1);
         } else {
             presets = Array.prototype.slice.call(arguments, 2);
         }

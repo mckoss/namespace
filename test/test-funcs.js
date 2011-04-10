@@ -69,6 +69,19 @@ namespace.lookup('org.startpad.funcs.test').define(function (exports, require) {
         ut.equal(mod4(2), 24);
     });
 
+    ut.test("curry", function() {
+        function foo(x, y) {
+            return 10 * x + y;
+        }
+
+        var f10 = foo.curry(1);
+        ut.equal(f10(0), 10);
+        ut.equal(f10(1), 11);
+        var f01 = foo.curry(undefined, 1);
+        ut.equal(f01(0), 1);
+        ut.equal(f01(2), 21);
+    });
+
     coverage.testCoverage();
 
 });
