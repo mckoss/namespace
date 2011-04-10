@@ -82,6 +82,69 @@ namespace.lookup('org.startpad.funcs.test').define(function (exports, require) {
         ut.equal(f01(2), 21);
     });
 
+    ut.test("decorator", function() {
+        function doubleIt(fn, args) {
+            if (fn == undefined) {
+                return;
+            }
+            return 2 * fn.apply(this, args);
+        }
+
+        var plusOneTimes2 = funcs.decorate(function(x) {
+            return x + 1;
+        }, doubleIt);
+
+        ut.equal(plusOneTimes2(1), 4);
+
+        plusOneTimes2 = function(x) {
+            return x + 1;
+        }.decorate(doubleIt);
+
+        ut.equal(plusOneTimes2(1), 4);
+
+        function Foo(x) {
+            this.x = x;
+        }
+
+        function twice(fn, args) {
+            if (fn == undefined) {
+                return;
+            }
+            fn.apply(this, args);
+            return fn.apply(this, args);
+        }
+
+        Foo.methods({
+            addOne: function() {
+                this.x++;
+            }.decorate(twice)
+        });
+
+        var foo = new Foo(7);
+        ut.equal(foo.x, 7);
+        foo.addOne();
+        ut.equal(foo.x, 9);
+
+        function dummy() {
+            return true;
+        }
+
+        function callCounter(fn, args, fnWrapper) {
+            if (fn == undefined) {
+                fnWrapper.count = 0;
+                return;
+            }
+            fnWrapper.count++;
+            return fn.apply(this, args);
+        }
+
+        var countDummy = dummy.decorate(callCounter);
+        for (var i = 0; i < 10; i++) {
+            ut.ok(countDummy() === true);
+        }
+        ut.equal(countDummy.count, 10);
+    });
+
     coverage.testCoverage();
 
 });
