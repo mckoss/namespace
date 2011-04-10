@@ -17,6 +17,10 @@ namespace.lookup('org.startpad.funcs.test').define(function (exports, require) {
     ut.test("monkeyPatch", function () {
         ut.equal(Function.methods, undefined, "methods not patched by default");
         funcs.monkeyPatch();
+        var patched = ['methods', 'bind', 'curry', 'decorate'];
+        for (var i = 0; i < patched.length; i++) {
+            coverage.wrapFunction(Function.prototype, patched[i], 'Function:');
+        }
         ut.equal(types.typeOf(Function.methods), 'function', "monkey patched");
     });
 
