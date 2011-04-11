@@ -2,7 +2,7 @@ namespace.lookup('org.startpad.funcs').define(function (exports, require) {
     var types = require('org.startpad.types');
 
     exports.extend({
-        'VERSION': '0.1.0',
+        'VERSION': '0.1.1',
         'methods': methods,
         'bind': bind,
         'decorate': decorate,
@@ -11,6 +11,8 @@ namespace.lookup('org.startpad.funcs').define(function (exports, require) {
 
     // Monkey-patch the Function object if that is your syntactic preference
     // REVIEW: Allow unpatch?
+    // REVIEW: What about multiple versions?
+    // REVIEW: Overwrites native bind - AND has different semantics!
     function monkeyPatch() {
         methods(Function, {
             'methods': function (obj) { methods(this, obj); },
@@ -81,6 +83,14 @@ namespace.lookup('org.startpad.funcs').define(function (exports, require) {
         // if needed.
         decorator.call(fn, undefined, arguments, decorated);
         return decorated;
+    }
+
+    // Create an emtpy object whose __proto__ points to the given object.
+    // It's properties will "shadow" those of the given object until modified.
+    function shadow(obj) {
+        function Dummy() {}
+        dummy.prototype = obj;
+        return new Dummy();
     }
 
 });
