@@ -2,31 +2,60 @@ namespace.lookup('org.startpad.funcs').define(function (exports, require) {
     var types = require('org.startpad.types');
 
     exports.extend({
-        'VERSION': '0.1.1',
+        'VERSION': '0.2.0',
         'methods': methods,
         'bind': bind,
         'decorate': decorate,
-        'monkeyPatch': monkeyPatch
+        'shadow': shadow,
+        'numericVersion': numericVersion,
+        'monkeyPatch': monkeyPatch,
+        'patch': patch
     });
 
-    // Monkey-patch the Function object if that is your syntactic preference
-    // REVIEW: Allow unpatch?
-    // REVIEW: What about multiple versions?
-    // REVIEW: Overwrites native bind - AND has different semantics!
-    function monkeyPatch() {
-        methods(Function, {
+    // Convert 3-part version number to comparable integer.
+    // Note: No part should be > 99.
+    function numericVersion(s) {
+        if (!s) {
+            return 0;
+        }
+        var a = s.split('.');
+        return 10000 * parseInt(a[0]) + 100 * parseInt(a[1]) + parseInt(a[2]);
+    }
+
+    // Monkey patch additional methods to constructor prototype, but only
+    // if patch version is newer than current patch version.
+    function monkeyPatch(ctor, by, version, patchMethods) {
+        if (ctor._patches) {
+            var patchVersion = ctor._patches[by];
+            if (numericVersion(patchVersion) >= numericVersion(version)) {
+                return;
+            }
+        }
+        ctor._patches = ctor._patches || {};
+        ctor._patches[by] = version;
+        methods(ctor, patchMethods);
+    }
+
+    function patch() {
+        monkeyPatch(Function, 'org.startpad.funcs', exports.VERSION, {
             'methods': function (obj) { methods(this, obj); },
-            'bind': function (self) {
-                var args = types.copyArray(arguments);
-                args.unshift(this);
-                return bind.apply(undefined, args);
-             },
             'curry': function () {
                 var args = [this, undefined].concat(types.copyArray(arguments));
                 return bind.apply(undefined, args);
              },
-            'decorate': function (decorator) { return decorate(this, decorator); }
+            'curryThis': function (self) {
+                var args = types.copyArray(arguments);
+                args.unshift(this);
+                return bind.apply(undefined, args);
+             },
+            'decorate': function (decorator) {
+                return decorate(this, decorator);
+            },
+            'subclass': function(parent, extraMethods) {
+                return subclass(this, parent, extraMethods);
+            }
         });
+        return exports;
     }
 
     // Copy methods to a Constructor Function's prototype
@@ -35,6 +64,8 @@ namespace.lookup('org.startpad.funcs').define(function (exports, require) {
     }
 
     // Bind 'this' and/or arguments and return new function.
+    // Differs from native bind (if present) in that undefined
+    // parameters are merged.
     function bind(fn, self) {
         var presets;
 
@@ -85,12 +116,21 @@ namespace.lookup('org.startpad.funcs').define(function (exports, require) {
         return decorated;
     }
 
-    // Create an emtpy object whose __proto__ points to the given object.
+    // Create an empty object whose __proto__ points to the given object.
     // It's properties will "shadow" those of the given object until modified.
     function shadow(obj) {
         function Dummy() {}
-        dummy.prototype = obj;
+        Dummy.prototype = obj;
         return new Dummy();
+    }
+
+    // Classical JavaScript inheritance pattern.
+    function subclass(ctor, parent, extraMethods) {
+        ctor.prototype = shadow(parent.prototype);
+        ctor.prototype.constructor = ctor;
+        ctor.prototype._super = parent;
+        ctor.prototype._proto = parent.prototype;
+        methods(ctor, extraMethods);
     }
 
 });

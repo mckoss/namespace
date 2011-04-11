@@ -11,17 +11,47 @@ namespace.lookup('org.startpad.funcs.test').define(function (exports, require) {
     ut.test("version", function () {
         var version = funcs.VERSION.split('.');
         ut.equal(version.length, 3, "VERSION has 3 parts");
-        ut.ok(version[0] == 0 && version[1] == 1, "tests for version 0.1");
+        ut.ok(version[0] == 0 && version[1] == 2, "tests for version 0.2");
     });
 
-    ut.test("monkeyPatch", function () {
+    ut.test("numericVersion", function () {
+        ut.equal(funcs.numericVersion("1.2.3"), 10203);
+        ut.ok(funcs.numericVersion("2.0.0") > funcs.numericVersion("1.9.9"));
+    });
+
+    ut.test("patch", function () {
         ut.equal(Function.methods, undefined, "methods not patched by default");
-        funcs.monkeyPatch();
-        var patched = ['methods', 'bind', 'curry', 'decorate'];
+        funcs.patch();
+        var patched = ['methods', 'curryThis', 'curry', 'decorate', 'subclass'];
         for (var i = 0; i < patched.length; i++) {
             coverage.wrapFunction(Function.prototype, patched[i], 'Function:');
         }
         ut.equal(types.typeOf(Function.methods), 'function', "monkey patched");
+    });
+
+    ut.test("monkeyPatch", function () {
+        function Foo() {
+        }
+
+        Foo.methods({
+            test: function () { return 1; }
+        });
+
+        var f = new Foo();
+        ut.equal(f.test(), 1);
+
+        funcs.monkeyPatch(Foo, 'test', '1.0.0', {
+            test: function () { return 3; }
+        });
+
+        ut.equal(f.test(), 3);
+
+        funcs.monkeyPatch(Foo, 'test', '0.9.9', {
+            test: function () { return 2; }
+        });
+
+        ut.equal(f.test(), 3);
+
     });
 
     ut.test("methods", function () {
@@ -59,11 +89,16 @@ namespace.lookup('org.startpad.funcs.test').define(function (exports, require) {
             return this.a + 10 * x + y;
         }
 
-        var teens = sample.bind({a: 3}, 1);
+        var teens = sample.curryThis({a: 3}, 1);
         ut.equal(teens(0), 13);
         ut.equal(teens(1), 14);
 
-        var mod4 = funcs.bind(sample, {a: 3}, undefined, 1);
+        var mod4 = sample.curryThis({a: 3}, undefined, 1);
+        ut.equal(mod4(0), 4);
+        ut.equal(mod4(1), 14);
+        ut.equal(mod4(2), 24);
+
+        mod4 = funcs.bind(sample, {a: 3}, undefined, 1);
         ut.equal(mod4(0), 4);
         ut.equal(mod4(1), 14);
         ut.equal(mod4(2), 24);
@@ -143,6 +178,57 @@ namespace.lookup('org.startpad.funcs.test').define(function (exports, require) {
             ut.ok(countDummy() === true);
         }
         ut.equal(countDummy.count, 10);
+    });
+
+    ut.test("shadow", function() {
+        var obj = {a: 1, b: 2};
+
+        var shadowObj = funcs.shadow(obj);
+        ut.equal(shadowObj.a, 1);
+        obj.a = 3;
+        ut.equal(shadowObj.a, 3);
+        shadowObj.a = 4;
+        ut.equal(shadowObj.a, 4);
+        ut.equal(obj.a, 3);
+    });
+
+    ut.test("subclass", function() {
+        function Super() {
+            this.x = 1;
+        }
+        Super.methods({
+            value: function() {
+                return this.x;
+            }
+        });
+
+        function Sub() {
+            this._super();
+        }
+
+        Sub.subclass(Super, {
+            value2: function () {
+                return this.value(this) + 1;
+            }
+        });
+
+        function Over() {
+            this._super();
+        }
+
+        Over.subclass(Super, {
+            value: function () {
+                return this._proto.value.call(this) + 2;
+            }
+        });
+
+        var s = new Sub();
+        ut.equal(s.x, 1);
+        ut.equal(s.value(), 1);
+        ut.equal(s.value2(), 2);
+
+        var o = new Over();
+        ut.equal(o.value(), 3);
     });
 
     coverage.testCoverage();
