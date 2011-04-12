@@ -1,4 +1,4 @@
-namespace.lookup('org.startpad.funcs').define(function (exports, require) {
+namespace.module('org.startpad.funcs', function (exports, require) {
     var types = require('org.startpad.types');
 
     exports.extend({

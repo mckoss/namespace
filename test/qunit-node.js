@@ -1,7 +1,7 @@
 require('./qunit.js');
 require('./qunit-coverage.js');
 
-var types = namespace.lookup('org.startpad.types');
+var types = namespace.module('org.startpad.types');
 
 var moduleInfo, testInfo;
 var testNumber = 1;

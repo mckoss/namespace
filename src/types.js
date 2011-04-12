@@ -1,4 +1,4 @@
-namespace.lookup('org.startpad.types').define(function (exports, require) {
+namespace.module('org.startpad.types', function (exports, require) {
     exports.extend({
         'VERSION': '0.1.0',
         'isArguments': function (value) { return isType(value, 'arguments'); },

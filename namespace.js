@@ -1,14 +1,12 @@
 /* Namespace.js - modular namespaces in JavaScript
 
-   by Mike Koss - placed in the public domain, March 18, 2011
-
-   version 2.2.0 - April 4, 2011 - version checking and require support
+   by Mike Koss - placed in the public domain
 */
 
 (function(global) {
     var globalNamespace = global['namespace'];
-    var Namespace;
-    var VERSION = '2.2.0';
+    var Module;
+    var VERSION = '3.0.0r1';
 
     function numeric(s) {
         if (!s) {
@@ -22,38 +20,41 @@
         if (numeric(VERSION) <= numeric(globalNamespace['VERSION'])) {
             return;
         }
-        Namespace = globalNamespace.constructor;
+        Module = globalNamespace.constructor;
     } else {
-        Namespace = function () {};
-        global['namespace'] = globalNamespace = new Namespace();
+        Module = function () {};
+        global['namespace'] = globalNamespace = new Module();
     }
     globalNamespace['VERSION'] = VERSION;
 
-    function lookup(path) {
+    function require(path) {
         path = path.replace(/-/g, '_');
         var parts = path.split('.');
         var ns = globalNamespace;
         for (var i = 0; i < parts.length; i++) {
             if (ns[parts[i]] === undefined) {
-                ns[parts[i]] = new Namespace();
+                ns[parts[i]] = new Module();
             }
             ns = ns[parts[i]];
         }
         return ns;
     }
 
-    var proto = Namespace.prototype;
+    var proto = Module.prototype;
 
-    proto['define'] = function(closure) {
-        closure(this, lookup);
-        return this;
+    proto['module'] = function(path, closure) {
+        var exports = require(path);
+        if (closure) {
+            closure(exports, require);
+        }
+        return exports;
     };
 
     proto['extend'] = function(exports) {
         for (var sym in exports) {
-            this[sym] = exports[sym];
+            if (exports.hasOwnProperty(sym)) {
+                this[sym] = exports[sym];
+            }
         }
     };
-
-    globalNamespace['lookup'] = lookup;
 }(this));

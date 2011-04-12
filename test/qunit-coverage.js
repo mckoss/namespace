@@ -10,7 +10,7 @@
       cover.testCoverage();
 
  */
-namespace.lookup('org.startpad.qunit.coverage').define(function (exports, require) {
+namespace.module('org.startpad.qunit.coverage', function (exports, require) {
     var funcs = require('org.startpad.funcs');
     var types = require('org.startpad.types');
     var ut = require('com.jquery.qunit');

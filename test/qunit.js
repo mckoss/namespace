@@ -9,7 +9,7 @@
  */
 
 // Use namespace for uniform environment on browser and node.js - mck
-namespace.lookup('com.jquery.qunit').define(function (exports, require) {
+namespace.module('com.jquery.qunit', function (exports, require) {
 var window = this;
 
 var defined = {
