@@ -165,11 +165,12 @@ namespace.lookup('org.startpad.funcs').define(function (exports, require) {
     var types = require('org.startpad.types');
 
     exports.extend({
-        'VERSION': '0.2.0',
+        'VERSION': '0.2.1',
         'methods': methods,
         'bind': bind,
         'decorate': decorate,
         'shadow': shadow,
+        'subclass': subclass,
         'numericVersion': numericVersion,
         'monkeyPatch': monkeyPatch,
         'patch': patch

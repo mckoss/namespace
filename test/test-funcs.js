@@ -216,7 +216,7 @@ namespace.lookup('org.startpad.funcs.test').define(function (exports, require) {
             this._super();
         }
 
-        Over.subclass(Super, {
+        funcs.subclass(Over, Super, {
             value: function () {
                 return this._proto.value.call(this) + 2;
             }
