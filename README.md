@@ -124,6 +124,6 @@ Google Closure).
   [FAQ]: http://mckoss.github.com/namespace/FAQ.html
   [README]: http://mckoss.github.com/namespace/README.html
   [namespace.js]: http://mckoss.github.com/namespace/
-  [CommnJS Modules]: http://www.commonjs.org/specs/modules/1.0/
+  [CommonJS Modules]: http://www.commonjs.org/specs/modules/1.0/
   [Python Modules]: http://docs.python.org/tutorial/modules.html
   [JavaScript Closure]: https://developer.mozilla.org/en/JavaScript/Guide/Closures
