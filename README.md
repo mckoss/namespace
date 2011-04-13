@@ -1,4 +1,4 @@
-[namespace.js] is a proposal for a standardized mechanism for creating
+namespace.js is a proposal for a standardized mechanism for creating
 JavaScript modules in the browser. Its inspiration comes from the design of
 [Python Modules] and the [CommonJS Modules] definition.
 
@@ -102,6 +102,10 @@ is equivalent to:
 Which style you use is a matter of personal preference (but see [FAQ] about safe use with
 Google Closure).
 
+# Unit Tests
+
+Run the latest [Unit Tests] online.
+
 # Revision History
 
 - 3.0.0 April 12, 2011 - Further simplify - remove lookup and define methods.
@@ -128,9 +132,7 @@ Google Closure).
   specifically designed to be used by any JavaScript module to make it
   easier for independently written modules to be used together.
 
-  [FAQ]: http://mckoss.github.com/namespace/FAQ.html
-  [README]: http://mckoss.github.com/namespace/README.html
-  [namespace.js]: http://mckoss.github.com/namespace/
   [CommonJS Modules]: http://www.commonjs.org/specs/modules/1.0/
   [Python Modules]: http://docs.python.org/tutorial/modules.html
   [JavaScript Closure]: https://developer.mozilla.org/en/JavaScript/Guide/Closures
+  [Unit Tests]: http://namespace-js.pageforest.com/test/test-runner.html
