@@ -75,31 +75,37 @@ JavaScript property names.*
 
 You can use the *extend* function as a convenient way to add public properties to your module:
 
-    function publicFunction {
-    }
+    namespace.module('com.mydomain.my-module', function (exports, require) {
+        exports.extend({
+          'publicFunction': publicFunction,
+          'PublicClass': PublicClass
+        });
 
-    function PublicClass {
-    }
+        function publicFunction {
+        }
 
-    exports.extend({
-      'publicFunction': publicFunction,
-      'PublicClass': PublicClass
+        function PublicClass {
+        }
     });
+
 
 is equivalent to:
 
-    exports.publicFunction = function () {
-    };
+    namespace.module('com.mydomain.my-module', function (exports, require) {
+        exports.publicFunction = function () {
+        };
 
-    exports.PublicClass = function () {
-    }
+        exports.PublicClass = function () {
+        }
+    });
 
 Which style you use is a matter of personal preference (but see [FAQ] about safe use with
 Google Closure).
 
 # Revision History
 
-- 3.0.0 April 12, 2011 - Simplify - remove lookup and define.  Now just have *module*, *exports* and *require*.
+- 3.0.0 April 12, 2011 - Further simplify - remove lookup and define methods.
+  Now just have *module*, *exports* and *require*.
   (541 bytes, 348 bytes gzipped)
 - 2.2.0 April 5, 2011 - Better VERSION handling and CommonJS Module compatible (exports/require).
   (515 bytes minified, 325 bytes gzipped)
