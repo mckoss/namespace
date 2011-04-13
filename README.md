@@ -33,7 +33,7 @@ for your module.
 The single global variable, *namespace*, is the top level Module.  All other
 modules are descendant properties of this object.
 
-### namespace.module(pathname, function (exports, require) { ... ])
+### namespace.module(pathname, function (exports, require) { ... })
 
 Use the *module* method to define your module:
 
