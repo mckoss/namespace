@@ -100,6 +100,7 @@ Google Closure).
 # Revision History
 
 - 3.0.0 April 12, 2011 - Simplify - remove lookup and define.  Now just have *module*, *exports* and *require*.
+  (541 bytes, 348 bytes gzipped)
 - 2.2.0 April 5, 2011 - Better VERSION handling and CommonJS Module compatible (exports/require).
   (515 bytes minified, 325 bytes gzipped)
 - 2.1.4 March 18, 2011 - First published version
