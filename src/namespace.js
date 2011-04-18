@@ -22,7 +22,7 @@
         }
         Module = globalNamespace.constructor;
     } else {
-        Module = function () {};
+        function Module () {};
         global['namespace'] = globalNamespace = new Module();
     }
     globalNamespace['VERSION'] = VERSION;
