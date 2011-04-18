@@ -4,7 +4,8 @@
     "namespace-plus.js": [
       "src/namespace.js",
       "src/types.js",
-      "src/funcs.js"
+      "src/funcs.js",
+	  "src/string.js"
     ]
   },
   "minify": true
