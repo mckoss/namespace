@@ -209,12 +209,12 @@ function patch() {
         'curry': function () {
             var args = [this, undefined].concat(types.copyArray(arguments));
             return bind.apply(undefined, args);
-         },
+        },
         'curryThis': function (self) {
             var args = types.copyArray(arguments);
             args.unshift(this);
             return bind.apply(undefined, args);
-         },
+        },
         'decorate': function (decorator) {
             return decorate(this, decorator);
         },
@@ -305,22 +305,22 @@ namespace.module('org.startpad.string', function (exports, require) {
 var funcs = require('org.startpad.funcs');
 
 exports.extend({
-'VERSION': '0.1.0',
-'patch': patch,
-'format': format
+    'VERSION': '0.1.0',
+    'patch': patch,
+    'format': format
 });
 
 function patch() {
-  funcs.monkeyPatch(String, 'org.startpad.string', exports.VERSION, {
-      'format': function () {
-          if (arguments.length == 1 && typeof arguments[0] == 'object') {
-              return format(this, arguments[0]);
-          } else {
-              return format(this, arguments);
-          }
+    funcs.monkeyPatch(String, 'org.startpad.string', exports.VERSION, {
+        'format': function () {
+            if (arguments.length == 1 && typeof arguments[0] == 'object') {
+                return format(this, arguments[0]);
+            } else {
+                return format(this, arguments);
+            }
         }
-  });
-  return exports;
+    });
+    return exports;
 }
 
 var reFormat = /\{\s*([^} ]+)\s*\}/g;
@@ -333,25 +333,25 @@ var reFormat = /\{\s*([^} ]+)\s*\}/g;
 // keys can be numbers (0-based index into an array) or
 // property names.
 function format(st, args, re) {
-  re = re || reFormat;
-  st = st.replace(re, function(whole, key) {
-      var value = args;
-      var keys = key.split('.');
-      for (var i = 0; i < keys.length; i++) {
-          key = keys[i];
-          var n = parseInt(key);
-          if (!isNaN(n)) {
-              value = value[n];
-          } else {
-              value = value[key];
-          }
-          if (value == undefined) {
-              return "";
-          }
-      }
-      // Implicit toString() on this.
-      return value;
-  });
-  return st;
+    re = re || reFormat;
+    st = st.replace(re, function(whole, key) {
+        var value = args;
+        var keys = key.split('.');
+        for (var i = 0; i < keys.length; i++) {
+            key = keys[i];
+            var n = parseInt(key);
+            if (!isNaN(n)) {
+                value = value[n];
+            } else {
+                value = value[key];
+            }
+            if (value == undefined) {
+                return "";
+            }
+        }
+        // Implicit toString() on this.
+        return value;
+    });
+    return st;
 }
 });

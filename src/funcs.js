@@ -42,12 +42,12 @@ function patch() {
         'curry': function () {
             var args = [this, undefined].concat(types.copyArray(arguments));
             return bind.apply(undefined, args);
-         },
+        },
         'curryThis': function (self) {
             var args = types.copyArray(arguments);
             args.unshift(this);
             return bind.apply(undefined, args);
-         },
+        },
         'decorate': function (decorator) {
             return decorate(this, decorator);
         },
