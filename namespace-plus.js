@@ -310,7 +310,7 @@ namespace.module('org.startpad.string', function (exports, require) {
   
   function patch() {
       funcs.monkeyPatch(String, 'org.startpad.string', exports.VERSION, {
-          'format': function () {
+          'format': function formatFunction () {
               if (arguments.length == 1 && typeof arguments[0] == 'object') {
                   return format(this, arguments[0]);
               } else {
