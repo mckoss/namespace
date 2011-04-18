@@ -5,8 +5,9 @@
 
 (function(global) {
     var globalNamespace = global['namespace'];
-    var Module;
-    var VERSION = '3.0.0r1';
+    var VERSION = '3.0.1';
+    
+    function Module() {}
 
     function numeric(s) {
         if (!s) {
@@ -22,7 +23,6 @@
         }
         Module = globalNamespace.constructor;
     } else {
-        function Module () {};
         global['namespace'] = globalNamespace = new Module();
     }
     globalNamespace['VERSION'] = VERSION;

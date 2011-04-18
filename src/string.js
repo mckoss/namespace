@@ -1,14 +1,14 @@
 var funcs = require('org.startpad.funcs');
 
 exports.extend({
-    'VERSION': '0.1.0',
+    'VERSION': '0.1.2',
     'patch': patch,
     'format': format
 });
 
 function patch() {
     funcs.monkeyPatch(String, 'org.startpad.string', exports.VERSION, {
-        'format': function () {
+          'format': function formatFunction () {
             if (arguments.length == 1 && typeof arguments[0] == 'object') {
                 return format(this, arguments[0]);
             } else {
@@ -30,6 +30,10 @@ var reFormat = /\{\s*([^} ]+)\s*\}/g;
 // property names.
 function format(st, args, re) {
     re = re || reFormat;
+      if (st == undefined) {
+          return "undefined";
+      }
+      st = st.toString();
     st = st.replace(re, function(whole, key) {
         var value = args;
         var keys = key.split('.');
