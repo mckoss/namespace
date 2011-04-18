@@ -1,3 +1,4 @@
+/* Source: src/namespace.js */
 /* Namespace.js - modular namespaces in JavaScript
 
    by Mike Koss - placed in the public domain
@@ -6,7 +7,7 @@
 (function(global) {
     var globalNamespace = global['namespace'];
     var VERSION = '3.0.1';
-    
+
     function Module() {}
 
     function numeric(s) {
@@ -58,6 +59,7 @@
         }
     };
 }(this));
+/* Source: src/types.js */
 namespace.module('org.startpad.types', function (exports, require) {
     exports.extend({
         'VERSION': '0.1.0',
@@ -162,6 +164,7 @@ namespace.module('org.startpad.types', function (exports, require) {
     }
 
 });
+/* Source: src/funcs.js */
 namespace.module('org.startpad.funcs', function (exports, require) {
     var types = require('org.startpad.types');
 
@@ -299,15 +302,16 @@ namespace.module('org.startpad.funcs', function (exports, require) {
     }
 
 });
+/* Source: src/string.js */
 namespace.module('org.startpad.string', function (exports, require) {
   var funcs = require('org.startpad.funcs');
-  
+
   exports.extend({
     'VERSION': '0.1.2',
     'patch': patch,
     'format': format
   });
-  
+
   function patch() {
       funcs.monkeyPatch(String, 'org.startpad.string', exports.VERSION, {
           'format': function formatFunction () {
@@ -320,9 +324,9 @@ namespace.module('org.startpad.string', function (exports, require) {
       });
       return exports;
   }
-  
+
   var reFormat = /\{\s*([^} ]+)\s*\}/g;
-  
+
   // Format a string using values from a dictionary or array.
   // {n} - positional arg (0 based)
   // {key} - object property (first match)

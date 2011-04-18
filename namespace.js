@@ -1,3 +1,4 @@
+/* Source: src/namespace.js */
 /* Namespace.js - modular namespaces in JavaScript
 
    by Mike Koss - placed in the public domain
@@ -6,7 +7,7 @@
 (function(global) {
     var globalNamespace = global['namespace'];
     var VERSION = '3.0.1';
-    
+
     function Module() {}
 
     function numeric(s) {
