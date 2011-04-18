@@ -39,6 +39,9 @@ namespace.module('org.startpad.string.test', function (exports, require) {
                     "mom and ");
                     
         ut.equal(string.format(1), '1');
+        ut.equal("{0}".format("hello"), "hello");
+        ut.equal("{0}".format("hello", "there"), "hello");
+        ut.equal(string.format(undefined), "undefined");
 
         ut.equal("format {0}".format("string"), "format string");
         ut.equal("{1} reverse {0}".format('a', 'b'), "b reverse a");
