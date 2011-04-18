@@ -2,7 +2,7 @@ namespace.module('org.startpad.string', function (exports, require) {
   var funcs = require('org.startpad.funcs');
   
   exports.extend({
-    'VERSION': '0.1.0',
+    'VERSION': '0.1.1',
     'patch': patch,
     'format': format
   });
@@ -31,6 +31,7 @@ namespace.module('org.startpad.string', function (exports, require) {
   // property names.
   function format(st, args, re) {
       re = re || reFormat;
+      st = st.toString();
       st = st.replace(re, function(whole, key) {
           var value = args;
           var keys = key.split('.');
