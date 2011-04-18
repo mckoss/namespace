@@ -20,13 +20,13 @@ namespace.module('org.startpad.funcs.test', function (exports, require) {
     });
 
     ut.test("patch", function () {
-        ut.equal(Function.methods, undefined, "methods not patched by default");
+        ut.equal(Function.prototype.methods, undefined, "methods not patched by default");
         funcs.patch();
         var patched = ['methods', 'curryThis', 'curry', 'decorate', 'subclass'];
         for (var i = 0; i < patched.length; i++) {
             coverage.wrapFunction(Function.prototype, patched[i], 'Function:');
         }
-        ut.equal(types.typeOf(Function.methods), 'function', "monkey patched");
+        ut.equal(types.typeOf(Function.prototype.methods), 'function', "monkey patched");
     });
 
     ut.test("monkeyPatch", function () {
