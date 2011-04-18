@@ -1,3 +1,4 @@
+/* Source: src/namespace.js */
 /* Namespace.js - modular namespaces in JavaScript
 
    by Mike Koss - placed in the public domain

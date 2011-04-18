@@ -3,9 +3,9 @@
     "namespace.js": [ "src/namespace.js" ],
     "namespace-plus.js": [
       "src/namespace.js",
-      "src/types.js",
-      "src/funcs.js",
-	  "src/string.js"
+      {"path": "src/types.js", "namespace": "org.startpad.types"},
+      {"path": "src/funcs.js", "namespace": "org.startpad.funcs"},
+      {"path": "src/string.js", "namespace": "org.startpad.string"}
     ]
   },
   "minify": true
