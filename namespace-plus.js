@@ -163,6 +163,7 @@ function getFunctionName(fn) {
     return result[1];
 }
 });
+
 /* Source: src/funcs.js */
 namespace.module('org.startpad.funcs', function (exports, require) {
 var types = require('org.startpad.types');
@@ -291,23 +292,28 @@ function shadow(obj) {
     return new Dummy();
 }
 
-// Classical JavaScript inheritance pattern.
+// Classical JavaScript single-inheritance pattern.
+// Call super constructor via this._super(args);
+// Call super methods via this._proto.method.call(this, args)
 function subclass(ctor, parent, extraMethods) {
     ctor.prototype = shadow(parent.prototype);
     ctor.prototype.constructor = ctor;
     ctor.prototype._super = parent;
     ctor.prototype._proto = parent.prototype;
     methods(ctor, extraMethods);
+    return ctor;
 }
 });
+
 /* Source: src/string.js */
 namespace.module('org.startpad.string', function (exports, require) {
 var funcs = require('org.startpad.funcs');
 
 exports.extend({
-    'VERSION': '0.1.2',
+    'VERSION': '0.2.0r1',
     'patch': patch,
-    'format': format
+    'format': format,
+    'strip': strip
 });
 
 function patch() {
@@ -357,5 +363,10 @@ function format(st, args, re) {
         return value;
     });
     return st;
+}
+
+// Like Python strip() - remove leading/trailing space
+function strip(s) {
+    return (s || "").replace(/^\s+|\s+$/g, "");
 }
 });

@@ -1,9 +1,10 @@
 var funcs = require('org.startpad.funcs');
 
 exports.extend({
-    'VERSION': '0.1.2',
+    'VERSION': '0.2.0r1',
     'patch': patch,
-    'format': format
+    'format': format,
+    'strip': strip
 });
 
 function patch() {
@@ -53,4 +54,9 @@ function format(st, args, re) {
         return value;
     });
     return st;
+}
+
+// Like Python strip() - remove leading/trailing space
+function strip(s) {
+    return (s || "").replace(/^\s+|\s+$/g, "");
 }

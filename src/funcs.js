@@ -124,11 +124,14 @@ function shadow(obj) {
     return new Dummy();
 }
 
-// Classical JavaScript inheritance pattern.
+// Classical JavaScript single-inheritance pattern.
+// Call super constructor via this._super(args);
+// Call super methods via this._proto.method.call(this, args)
 function subclass(ctor, parent, extraMethods) {
     ctor.prototype = shadow(parent.prototype);
     ctor.prototype.constructor = ctor;
     ctor.prototype._super = parent;
     ctor.prototype._proto = parent.prototype;
     methods(ctor, extraMethods);
+    return ctor;
 }
