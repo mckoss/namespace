@@ -196,6 +196,7 @@ namespace.module('org.startpad.funcs.test', function (exports, require) {
         function Super() {
             this.x = 1;
         }
+        
         Super.methods({
             value: function() {
                 return this.x;
@@ -203,7 +204,7 @@ namespace.module('org.startpad.funcs.test', function (exports, require) {
         });
 
         function Sub() {
-            this._super();
+            Super.call(this);
         }
 
         Sub.subclass(Super, {
@@ -211,14 +212,21 @@ namespace.module('org.startpad.funcs.test', function (exports, require) {
                 return this.value(this) + 1;
             }
         });
+        
+        function Sub2() {
+            Sub.call(this);
+            this.x++;
+        }
+        
+        Sub2.subclass(Sub);
 
         function Over() {
-            this._super();
+            Super.call(this);
         }
 
         funcs.subclass(Over, Super, {
             value: function () {
-                return this._proto.value.call(this) + 2;
+                return Super.prototype.value.call(this) + 2;
             }
         });
 
@@ -226,6 +234,11 @@ namespace.module('org.startpad.funcs.test', function (exports, require) {
         ut.equal(s.x, 1);
         ut.equal(s.value(), 1);
         ut.equal(s.value2(), 2);
+        
+        var s2 = new Sub2();
+        ut.equals(s2.x, 2);
+        ut.equal(s2.value(), 2);
+        ut.equal(s2.value2(), 3);
 
         var o = new Over();
         ut.equal(o.value(), 3);

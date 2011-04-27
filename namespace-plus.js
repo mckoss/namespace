@@ -163,6 +163,7 @@ function getFunctionName(fn) {
     return result[1];
 }
 });
+
 /* Source: src/funcs.js */
 namespace.module('org.startpad.funcs', function (exports, require) {
 var types = require('org.startpad.types');
@@ -295,11 +296,10 @@ function shadow(obj) {
 function subclass(ctor, parent, extraMethods) {
     ctor.prototype = shadow(parent.prototype);
     ctor.prototype.constructor = ctor;
-    ctor.prototype._super = parent;
-    ctor.prototype._proto = parent.prototype;
     methods(ctor, extraMethods);
 }
 });
+
 /* Source: src/string.js */
 namespace.module('org.startpad.string', function (exports, require) {
 var funcs = require('org.startpad.funcs');
