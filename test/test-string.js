@@ -16,7 +16,7 @@ namespace.module('org.startpad.string.test', function (exports, require) {
         ut.ok(version[0] == 0 && version[1] == 1, "tests for version 0.1");
         ut.equal();
     });
-    
+
     ut.test("patch", function () {
         ut.equal(String.prototype.format, undefined, "methods not patched by default");
         string.patch();
@@ -26,9 +26,8 @@ namespace.module('org.startpad.string.test', function (exports, require) {
         }
         ut.equal(types.typeOf(String.prototype.format), 'function', "monkey patched");
     });
-    
-    ut.test("format", function()
-    {
+
+    ut.test("format", function() {
         ut.equal(string.format("this is {wow} test", {wow: "foo"}),
                     "this is foo test");
         ut.equal(string.format("{key} is replaced {key} twice",
@@ -37,7 +36,7 @@ namespace.module('org.startpad.string.test', function (exports, require) {
 
         ut.equal(string.format("{key} and {key2}", {key: "mom"}),
                     "mom and ");
-                    
+
         ut.equal(string.format(1), '1');
         ut.equal("{0}".format("hello"), "hello");
         ut.equal("{0}".format("hello", "there"), "hello");
@@ -61,6 +60,11 @@ namespace.module('org.startpad.string.test', function (exports, require) {
 
         ut.equal("Allow space { 0 } around vars { 1.prop }.".format("prop", {prop: "prop2"}),
                     "Allow space prop around vars prop2.");
+    });
+
+    ut.test('strip', function () {
+        ut.equal(string.strip(" hello, there "), "hello, there");
+        ut.equal(string.strip(" a\nb\n"), "a\nb");
     });
 
     coverage.testCoverage();

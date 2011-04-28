@@ -1,7 +1,7 @@
 var funcs = require('org.startpad.funcs');
 
 exports.extend({
-    'VERSION': '0.2.0r1',
+    'VERSION': '0.3.0',
     'patch': patch,
     'format': format,
     'strip': strip

@@ -169,12 +169,13 @@ namespace.module('org.startpad.funcs', function (exports, require) {
 var types = require('org.startpad.types');
 
 exports.extend({
-    'VERSION': '0.2.1',
+    'VERSION': '0.3.0',
     'methods': methods,
     'bind': bind,
     'decorate': decorate,
-    'shadow': shadow,
+    'create': Object.create || create,
     'subclass': subclass,
+    'mro': mro,
     'numericVersion': numericVersion,
     'monkeyPatch': monkeyPatch,
     'patch': patch
@@ -220,7 +221,11 @@ function patch() {
             return decorate(this, decorator);
         },
         'subclass': function(parent, extraMethods) {
-            return subclass(this, parent, extraMethods);
+            subclass(this, parent, extraMethods);
+        },
+        'mro': function(ctors, extraMethods) {
+            ctors.unshift(this);
+            mro(ctors, extraMethods);
         }
     });
     return exports;
@@ -286,22 +291,39 @@ function decorate(fn, decorator) {
 
 // Create an empty object whose __proto__ points to the given object.
 // It's properties will "shadow" those of the given object until modified.
-function shadow(obj) {
-    function Dummy() {}
-    Dummy.prototype = obj;
-    return new Dummy();
+function create(obj) {
+    function Create() {}
+    Create.prototype = obj;
+    return new Create();
 }
 
 // Classical JavaScript single-inheritance pattern.
 // Call super constructor via this._super(args);
 // Call super methods via this._proto.method.call(this, args)
 function subclass(ctor, parent, extraMethods) {
-    ctor.prototype = shadow(parent.prototype);
+    ctor.prototype = exports.create(parent.prototype);
     ctor.prototype.constructor = ctor;
-    ctor.prototype._super = parent;
-    ctor.prototype._proto = parent.prototype;
     methods(ctor, extraMethods);
     return ctor;
+}
+
+// Define method resolution order for multiple inheritance.
+// Builds a custom prototype chain, where each constructor's
+// prototype appears exactly once.
+function mro(ctors, extraMethods) {
+    var parent = ctors.pop().prototype;
+    var ctor;
+    while (ctors.length > 0) {
+        ctor = ctors.pop();
+        var ctorName = types.getFunctionName(ctor);
+        var proto = exports.create(parent);
+        types.extend(proto, ctor.prototype);
+        proto.constructor = ctor;
+        proto[ctorName + '_super'] = parent;
+        parent = proto;
+    }
+    ctor.prototype = parent;
+    methods(ctor, extraMethods);
 }
 });
 
@@ -310,7 +332,7 @@ namespace.module('org.startpad.string', function (exports, require) {
 var funcs = require('org.startpad.funcs');
 
 exports.extend({
-    'VERSION': '0.2.0r1',
+    'VERSION': '0.3.0',
     'patch': patch,
     'format': format,
     'strip': strip
