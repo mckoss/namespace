@@ -8,3 +8,4 @@ require('./test-namespace.js');
 require('./test-types.js');
 require('./test-funcs.js');
 require('./test-string.js');
+require('./test-coverage.js');

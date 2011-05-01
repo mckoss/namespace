@@ -61,7 +61,8 @@ namespace.module('org.startpad.qunit.coverage', function (exports, require) {
             };
 
             for (var method in func.prototype) {
-                this.wrapFunction(func.prototype, method, fullName + ':');
+                parent[name].prototype[method] = func.prototype[method];
+                this.wrapFunction(parent[name].prototype, method, fullName + ':');
             }
         },
 
