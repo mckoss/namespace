@@ -62,7 +62,7 @@
 /* Source: src/types.js */
 namespace.module('org.startpad.types', function (exports, require) {
 exports.extend({
-    'VERSION': '0.1.0',
+    'VERSION': '0.2.0',
     'isArguments': function (value) { return isType(value, 'arguments'); },
     'isArray': function (value) { return isType(value, 'array'); },
     'copyArray': copyArray,
@@ -70,8 +70,14 @@ exports.extend({
     'typeOf': typeOf,
     'extend': extend,
     'project': project,
-    'getFunctionName': getFunctionName
+    'getFunctionName': getFunctionName,
+    'keys': Object.keys || keys,
+    'patch': patch
 });
+
+function patch() {
+    Object.keys = Object.keys || keys;  // JavaScript 1.8.5
+}
 
 // Can be used to copy Arrays and Arguments into an Array
 function copyArray(arg) {
@@ -162,6 +168,17 @@ function getFunctionName(fn) {
     }
     return result[1];
 }
+
+function keys(obj) {
+    var list = [];
+
+    for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+            list.push(prop);
+        }
+    }
+    return list;
+}
 });
 
 /* Source: src/funcs.js */
@@ -169,7 +186,7 @@ namespace.module('org.startpad.funcs', function (exports, require) {
 var types = require('org.startpad.types');
 
 exports.extend({
-    'VERSION': '0.3.0',
+    'VERSION': '0.3.1',
     'methods': methods,
     'bind': bind,
     'decorate': decorate,
@@ -206,6 +223,10 @@ function monkeyPatch(ctor, by, version, patchMethods) {
 }
 
 function patch() {
+    if (!Object.create) {
+        Object.create = create;
+    }
+
     monkeyPatch(Function, 'org.startpad.funcs', exports.VERSION, {
         'methods': function (obj) { methods(this, obj); },
         'curry': function () {
@@ -392,3 +413,4 @@ function strip(s) {
     return (s || "").replace(/^\s+|\s+$/g, "");
 }
 });
+
