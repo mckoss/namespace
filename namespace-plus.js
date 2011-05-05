@@ -62,7 +62,7 @@
 /* Source: src/types.js */
 namespace.module('org.startpad.types', function (exports, require) {
 exports.extend({
-    'VERSION': '0.2.1',
+    'VERSION': '0.2.2',
     'isArguments': function (value) { return isType(value, 'arguments'); },
     'isArray': function (value) { return isType(value, 'array'); },
     'copyArray': copyArray,
@@ -150,6 +150,9 @@ function extend(dest) {
 // into the new object.  Ignore undefined properties.
 function project(obj, props) {
     var result = {};
+    if (typeof props == 'string') {
+        props = [props];
+    }
     for (var i = 0; i < props.length; i++) {
         var name = props[i];
         if (obj && obj.hasOwnProperty(name)) {

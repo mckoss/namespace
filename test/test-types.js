@@ -95,7 +95,8 @@ namespace.module('org.startpad.types.test', function (exports, require) {
             [{a: 1, b: 2}, ['a'], {a: 1}],
             [{a: 1, b: 2}, ['c'], {}],
             [undefined, ['a'], {}],
-            [{a: 1, b: 2}, [], {}]
+            [{a: 1, b: 2}, [], {}],
+            [{a1: 1, b2: 2}, 'a1', {a1: 1}]
         ];
         for (var i = 0; i < tests.length; i++) {
             var t = tests[i];
