@@ -116,8 +116,7 @@ namespace.module('org.startpad.types.test', function (exports, require) {
     });
 
     ut.test("patch", function() {
-        types.patch();
-        ut.ok(true);
+        ut.strictEqual(types.patch(), types);
     });
 
     coverage.testCoverage();

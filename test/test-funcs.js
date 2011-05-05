@@ -21,7 +21,7 @@ namespace.module('org.startpad.funcs.test', function (exports, require) {
 
     ut.test("patch", function () {
         ut.equal(Function.prototype.methods, undefined, "methods not patched by default");
-        funcs.patch();
+        ut.strictEqual(funcs.patch(), funcs);
         var patched = ['methods', 'curryThis', 'curry', 'decorate', 'subclass'];
         for (var i = 0; i < patched.length; i++) {
             coverage.wrapFunction(Function.prototype, patched[i], 'Function:');
@@ -196,7 +196,7 @@ namespace.module('org.startpad.funcs.test', function (exports, require) {
         function Super() {
             this.x = 1;
         }
-        
+
         Super.methods({
             value: function() {
                 return this.x;
@@ -212,12 +212,12 @@ namespace.module('org.startpad.funcs.test', function (exports, require) {
                 return this.value(this) + 1;
             }
         });
-        
+
         function Sub2() {
             Sub.call(this);
             this.x++;
         }
-        
+
         Sub2.subclass(Sub);
 
         function Over() {
@@ -234,7 +234,7 @@ namespace.module('org.startpad.funcs.test', function (exports, require) {
         ut.equal(s.x, 1);
         ut.equal(s.value(), 1);
         ut.equal(s.value2(), 2);
-        
+
         var s2 = new Sub2();
         ut.equals(s2.x, 2);
         ut.equal(s2.value(), 2);
@@ -243,37 +243,37 @@ namespace.module('org.startpad.funcs.test', function (exports, require) {
         var o = new Over();
         ut.equal(o.value(), 3);
     });
-    
+
     ut.test("mro", function () {
         function D() {}
         D.methods({
             f: function () { return 'D'; }
         });
-        
+
         function C() {}
         C.methods({
-           f: function () { return 'C<' + this.C_super.f.call(this) + '>'; } 
+           f: function () { return 'C<' + this.C_super.f.call(this) + '>'; }
         });
         C.mro([D]);
-        
+
         function B() {}
         B.methods({
-           f: function () { return 'B<' + this.B_super.f.call(this) + '>'; } 
+           f: function () { return 'B<' + this.B_super.f.call(this) + '>'; }
         });
         B.mro([D]);
-        
+
         function A() {}
         A.methods({
-           f: function () { return 'A<' + this.A_super.f.call(this) + '>'; } 
+           f: function () { return 'A<' + this.A_super.f.call(this) + '>'; }
         });
         funcs.mro([A, B, C, D]);
-        
+
         var c = new C();
         ut.equal(c.f(), 'C<D>');
         var b = new B();
         ut.equal(b.f(), 'B<D>');
         var a = new A();
-        ut.equal(a.f(), 'A<B<C<D>>>');        
+        ut.equal(a.f(), 'A<B<C<D>>>');
     });
 
     coverage.testCoverage();

@@ -62,7 +62,7 @@
 /* Source: src/types.js */
 namespace.module('org.startpad.types', function (exports, require) {
 exports.extend({
-    'VERSION': '0.2.0',
+    'VERSION': '0.2.1',
     'isArguments': function (value) { return isType(value, 'arguments'); },
     'isArray': function (value) { return isType(value, 'array'); },
     'copyArray': copyArray,
@@ -77,6 +77,7 @@ exports.extend({
 
 function patch() {
     Object.keys = Object.keys || keys;  // JavaScript 1.8.5
+    return exports;
 }
 
 // Can be used to copy Arrays and Arguments into an Array

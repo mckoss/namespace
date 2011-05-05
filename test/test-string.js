@@ -19,7 +19,7 @@ namespace.module('org.startpad.string.test', function (exports, require) {
 
     ut.test("patch", function () {
         ut.equal(String.prototype.format, undefined, "methods not patched by default");
-        string.patch();
+        ut.strictEqual(string.patch(), string);
         var patched = ['format'];
         for (var i = 0; i < patched.length; i++) {
             coverage.wrapFunction(String.prototype, patched[i], 'String:');
