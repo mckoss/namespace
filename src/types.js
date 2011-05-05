@@ -1,5 +1,5 @@
 exports.extend({
-    'VERSION': '0.1.0',
+    'VERSION': '0.2.0',
     'isArguments': function (value) { return isType(value, 'arguments'); },
     'isArray': function (value) { return isType(value, 'array'); },
     'copyArray': copyArray,
@@ -7,8 +7,14 @@ exports.extend({
     'typeOf': typeOf,
     'extend': extend,
     'project': project,
-    'getFunctionName': getFunctionName
+    'getFunctionName': getFunctionName,
+    'keys': Object.keys || keys,
+    'patch': patch
 });
+
+function patch() {
+    Object.keys = Object.keys || keys;  // JavaScript 1.8.5
+}
 
 // Can be used to copy Arrays and Arguments into an Array
 function copyArray(arg) {
@@ -98,4 +104,15 @@ function getFunctionName(fn) {
         return '';
     }
     return result[1];
+}
+
+function keys(obj) {
+    var list = [];
+
+    for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+            list.push(prop);
+        }
+    }
+    return list;
 }
