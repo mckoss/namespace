@@ -11,9 +11,9 @@ namespace.module('org.startpad.string.test', function (exports, require) {
     coverage = new utCoverage.Coverage('org.startpad.string');
 
     ut.test("version", function () {
-        var version = types.VERSION.split('.');
+        var version = string.VERSION.split('.');
         ut.equal(version.length, 3, "VERSION has 3 parts");
-        ut.ok(version[0] == 0 && version[1] == 1, "tests for version 0.1");
+        ut.ok(version[0] == 0 && version[1] == 3, "tests for version 0.3");
         ut.equal();
     });
 

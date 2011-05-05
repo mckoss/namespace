@@ -12,7 +12,7 @@ namespace.module('org.startpad.types.test', function (exports, require) {
     ut.test("version", function () {
         var version = types.VERSION.split('.');
         ut.equal(version.length, 3, "VERSION has 3 parts");
-        ut.ok(version[0] == 0 && version[1] == 1, "tests for version 0.1");
+        ut.ok(version[0] == 0 && version[1] == 2, "tests for version 0.2");
         ut.equal();
     });
 
@@ -101,6 +101,23 @@ namespace.module('org.startpad.types.test', function (exports, require) {
             var t = tests[i];
             ut.deepEqual(types.project(t[0], t[1]), t[2]);
         }
+    });
+
+    ut.test("keys", function () {
+        var tests = [
+            [{}, []],
+            [{a: 1}, ['a']],
+            [{_a: 1}, ['_a']]
+        ];
+        for (var i = 0; i < tests.length; i++) {
+            var test = tests[i];
+            ut.deepEqual(types.keys(test[0]), test[1], JSON.stringify(test[0]));
+        }
+    });
+
+    ut.test("patch", function() {
+        types.patch();
+        ut.ok(true);
     });
 
     coverage.testCoverage();
