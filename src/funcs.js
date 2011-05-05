@@ -1,7 +1,7 @@
 var types = require('org.startpad.types');
 
 exports.extend({
-    'VERSION': '0.3.0',
+    'VERSION': '0.3.1',
     'methods': methods,
     'bind': bind,
     'decorate': decorate,
@@ -38,6 +38,10 @@ function monkeyPatch(ctor, by, version, patchMethods) {
 }
 
 function patch() {
+    if (!Object.create) {
+        Object.create = create;
+    }
+
     monkeyPatch(Function, 'org.startpad.funcs', exports.VERSION, {
         'methods': function (obj) { methods(this, obj); },
         'curry': function () {
